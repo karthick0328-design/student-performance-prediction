@@ -225,10 +225,7 @@ def api_stats():
 # Error Handlers
 @app.errorhandler(404)
 def not_found_error(error):
-    hdrs = [f"{k}={v}" for k, v in request.headers.items() if any(w in k.lower() for w in ['path', 'url', 'uri', 'route', 'forward', 'vercel'])]
-    env_keys = [f"{k}={v}" for k, v in request.environ.items() if any(w in k.lower() for w in ['path', 'url', 'uri', 'route', 'orig', 'matched', 'request'])]
-    debug_msg = f"HDRS: {'; '.join(hdrs)} || ENV: {'; '.join(env_keys)}"
-    return render_template("error.html", error_code=404, message=debug_msg), 404
+    return render_template("error.html", error_code=404, message="The requested page could not be found."), 404
 
 
 @app.errorhandler(500)
