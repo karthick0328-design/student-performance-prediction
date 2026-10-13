@@ -225,7 +225,9 @@ def api_stats():
 # Error Handlers
 @app.errorhandler(404)
 def not_found_error(error):
-    debug_msg = f"PATH: {request.environ.get('PATH_INFO')} | SCRIPT: {request.environ.get('SCRIPT_NAME')} | X_MATCHED: {request.environ.get('HTTP_X_MATCHED_PATH')}"
+    hdrs = [f"{k}={v}" for k, v in request.headers.items() if any(w in k.lower() for w in ['path', 'url', 'uri', 'route', 'forward', 'vercel'])]
+    env_keys = [f"{k}={v}" for k, v in request.environ.items() if any(w in k.lower() for w in ['path', 'url', 'uri', 'route', 'orig', 'matched', 'request'])]
+    debug_msg = f"HDRS: {'; '.join(hdrs)} || ENV: {'; '.join(env_keys)}"
     return render_template("error.html", error_code=404, message=debug_msg), 404
 
 
