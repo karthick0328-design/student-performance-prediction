@@ -1,0 +1,314 @@
+{% extends "base.html" %}
+
+{% block title %}Predict Student Performance | Student Performance Prediction System{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<div class="page-header">
+  <div class="page-header-title">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+      <polyline points="14 2 14 8 20 8"/>
+      <line x1="16" y1="13" x2="8" y2="13"/>
+      <line x1="16" y1="17" x2="8" y2="17"/>
+      <polyline points="10 9 9 9 8 9"/>
+    </svg>
+    <span>Predict Student Performance</span>
+  </div>
+  <div class="page-header-subtitle">
+    Enter the student details below to predict the final grade and get personalized guidance.
+  </div>
+</div>
+
+<!-- 2-Column Layout -->
+<div class="predict-page-layout">
+  
+  <!-- Left Column: Student Information Form -->
+  <div class="predict-form-card">
+    <h3 style="font-size: 0.95rem; font-weight: 700; color: var(--text-main); margin-bottom: 1.25rem;">
+      Student Information
+    </h3>
+
+    {% if form_errors %}
+    <div style="background-color: var(--danger-bg); border: 1px solid #fca5a5; color: #991b1b; padding: 0.75rem 1rem; border-radius: var(--radius-sm); font-size: 0.8rem; margin-bottom: 1.25rem;">
+      <strong>Please check your inputs:</strong> Some fields require your attention.
+    </div>
+    {% endif %}
+
+    <form action="{{ url_for('predict') }}" method="POST" id="prediction-form">
+      <div class="form-grid-3col">
+        
+        <!-- Field 1: Age -->
+        <div class="form-group-field">
+          <label for="age">Age <span class="req">*</span></label>
+          <input type="number" name="age" id="age" class="form-input" min="15" max="22" value="{{ current_data.get('age', 18) }}" required>
+          {% if form_errors.get('age') %}<span style="color:red; font-size:0.75rem;">{{ form_errors['age'] }}</span>{% endif %}
+        </div>
+
+        <!-- Field 2: Medu -->
+        <div class="form-group-field">
+          <label for="Medu">Medu (Mother's Education) <span class="req">*</span></label>
+          <select name="Medu" id="Medu" class="form-input" required>
+            <option value="0" {% if current_data.get('Medu')|string == '0' %}selected{% endif %}>None</option>
+            <option value="1" {% if current_data.get('Medu')|string == '1' %}selected{% endif %}>Primary Education</option>
+            <option value="2" {% if current_data.get('Medu')|string == '2' %}selected{% endif %}>5th to 9th Grade</option>
+            <option value="3" {% if current_data.get('Medu')|string == '3' or not current_data.get('Medu') %}selected{% endif %}>Secondary</option>
+            <option value="4" {% if current_data.get('Medu')|string == '4' %}selected{% endif %}>Higher Education</option>
+          </select>
+        </div>
+
+        <!-- Field 3: Higher Education -->
+        <div class="form-group-field">
+          <label for="higher">Higher Education <span class="req">*</span></label>
+          <select name="higher" id="higher" class="form-input" required>
+            <option value="yes" {% if current_data.get('higher') == 'yes' %}selected{% endif %}>Yes</option>
+            <option value="no" {% if current_data.get('higher') == 'no' %}selected{% endif %}>No</option>
+          </select>
+        </div>
+
+        <!-- Field 4: Gender -->
+        <div class="form-group-field">
+          <label for="sex">Gender <span class="req">*</span></label>
+          <select name="sex" id="sex" class="form-input" required>
+            <option value="M" {% if current_data.get('sex') == 'M' %}selected{% endif %}>Male</option>
+            <option value="F" {% if current_data.get('sex') == 'F' or not current_data.get('sex') %}selected{% endif %}>Female</option>
+          </select>
+        </div>
+
+        <!-- Field 5: Fedu -->
+        <div class="form-group-field">
+          <label for="Fedu">Fedu (Father's Education) <span class="req">*</span></label>
+          <select name="Fedu" id="Fedu" class="form-input" required>
+            <option value="0" {% if current_data.get('Fedu')|string == '0' %}selected{% endif %}>None</option>
+            <option value="1" {% if current_data.get('Fedu')|string == '1' %}selected{% endif %}>Primary Education</option>
+            <option value="2" {% if current_data.get('Fedu')|string == '2' %}selected{% endif %}>5th to 9th Grade</option>
+            <option value="3" {% if current_data.get('Fedu')|string == '3' or not current_data.get('Fedu') %}selected{% endif %}>Secondary</option>
+            <option value="4" {% if current_data.get('Fedu')|string == '4' %}selected{% endif %}>Higher Education</option>
+          </select>
+        </div>
+
+        <!-- Field 6: Internet Access -->
+        <div class="form-group-field">
+          <label for="internet">Internet Access <span class="req">*</span></label>
+          <select name="internet" id="internet" class="form-input" required>
+            <option value="yes" {% if current_data.get('internet') == 'yes' %}selected{% endif %}>Yes</option>
+            <option value="no" {% if current_data.get('internet') == 'no' %}selected{% endif %}>No</option>
+          </select>
+        </div>
+
+        <!-- Field 7: Study Time -->
+        <div class="form-group-field">
+          <label for="studytime">Study Time (hours/day) <span class="req">*</span></label>
+          <select name="studytime" id="studytime" class="form-input" required>
+            <option value="1" {% if current_data.get('studytime')|string == '1' %}selected{% endif %}>1 (&lt; 2 hrs/week)</option>
+            <option value="2" {% if current_data.get('studytime')|string == '2' or not current_data.get('studytime') %}selected{% endif %}>2 (2 to 5 hrs/week)</option>
+            <option value="3" {% if current_data.get('studytime')|string == '3' %}selected{% endif %}>3 (5 to 10 hrs/week)</option>
+            <option value="4" {% if current_data.get('studytime')|string == '4' %}selected{% endif %}>4 (&gt; 10 hrs/week)</option>
+          </select>
+        </div>
+
+        <!-- Field 8: Family Support -->
+        <div class="form-group-field">
+          <label for="famsup">Family Support <span class="req">*</span></label>
+          <select name="famsup" id="famsup" class="form-input" required>
+            <option value="yes" {% if current_data.get('famsup') == 'yes' %}selected{% endif %}>Yes</option>
+            <option value="no" {% if current_data.get('famsup') == 'no' %}selected{% endif %}>No</option>
+          </select>
+        </div>
+
+        <!-- Field 9: Romantic Relationship -->
+        <div class="form-group-field">
+          <label for="romantic">Romantic Relationship <span class="req">*</span></label>
+          <select name="romantic" id="romantic" class="form-input" required>
+            <option value="no" {% if current_data.get('romantic') == 'no' %}selected{% endif %}>No</option>
+            <option value="yes" {% if current_data.get('romantic') == 'yes' %}selected{% endif %}>Yes</option>
+          </select>
+        </div>
+
+        <!-- Field 10: Free Time After School -->
+        <div class="form-group-field">
+          <label for="freetime">Free Time After School (hours/day) <span class="req">*</span></label>
+          <select name="freetime" id="freetime" class="form-input" required>
+            <option value="1" {% if current_data.get('freetime')|string == '1' %}selected{% endif %}>1 (Very Low)</option>
+            <option value="2" {% if current_data.get('freetime')|string == '2' or not current_data.get('freetime') %}selected{% endif %}>2 (Low)</option>
+            <option value="3" {% if current_data.get('freetime')|string == '3' %}selected{% endif %}>3 (Medium)</option>
+            <option value="4" {% if current_data.get('freetime')|string == '4' %}selected{% endif %}>4 (High)</option>
+            <option value="5" {% if current_data.get('freetime')|string == '5' %}selected{% endif %}>5 (Very High)</option>
+          </select>
+        </div>
+
+        <!-- Field 11: Paid Classes -->
+        <div class="form-group-field">
+          <label for="paid">Paid Classes <span class="req">*</span></label>
+          <select name="paid" id="paid" class="form-input" required>
+            <option value="no" {% if current_data.get('paid') == 'no' %}selected{% endif %}>No</option>
+            <option value="yes" {% if current_data.get('paid') == 'yes' %}selected{% endif %}>Yes</option>
+          </select>
+        </div>
+
+        <!-- Field 12: Health -->
+        <div class="form-group-field">
+          <label for="health">Health <span class="req">*</span></label>
+          <select name="health" id="health" class="form-input" required>
+            <option value="1" {% if current_data.get('health')|string == '1' %}selected{% endif %}>Very Bad</option>
+            <option value="2" {% if current_data.get('health')|string == '2' %}selected{% endif %}>Poor</option>
+            <option value="3" {% if current_data.get('health')|string == '3' %}selected{% endif %}>Fair</option>
+            <option value="4" {% if current_data.get('health')|string == '4' or not current_data.get('health') %}selected{% endif %}>Good</option>
+            <option value="5" {% if current_data.get('health')|string == '5' %}selected{% endif %}>Very Good</option>
+          </select>
+        </div>
+
+        <!-- Field 13: Absences -->
+        <div class="form-group-field">
+          <label for="absences">Absences <span class="req">*</span></label>
+          <input type="number" name="absences" id="absences" class="form-input" min="0" max="93" value="{{ current_data.get('absences', 0) }}" required>
+        </div>
+
+        <!-- Field 14: Activities -->
+        <div class="form-group-field">
+          <label for="activities">Activities <span class="req">*</span></label>
+          <select name="activities" id="activities" class="form-input" required>
+            <option value="no" {% if current_data.get('activities') == 'no' %}selected{% endif %}>No</option>
+            <option value="yes" {% if current_data.get('activities') == 'yes' %}selected{% endif %}>Yes</option>
+          </select>
+        </div>
+
+        <!-- Field 15: Family Size -->
+        <div class="form-group-field">
+          <label for="famsize">Family Size <span class="req">*</span></label>
+          <select name="famsize" id="famsize" class="form-input" required>
+            <option value="GT3" {% if current_data.get('famsize') == 'GT3' %}selected{% endif %}>&gt; 3 (GT3)</option>
+            <option value="LE3" {% if current_data.get('famsize') == 'LE3' %}selected{% endif %}>&le; 3 (LE3)</option>
+          </select>
+        </div>
+
+        <!-- Hidden / Default Background Features -->
+        <input type="hidden" name="school" value="{{ current_data.get('school', 'GP') }}">
+        <input type="hidden" name="address" value="{{ current_data.get('address', 'U') }}">
+        <input type="hidden" name="Pstatus" value="{{ current_data.get('Pstatus', 'T') }}">
+        <input type="hidden" name="Mjob" value="{{ current_data.get('Mjob', 'services') }}">
+        <input type="hidden" name="Fjob" value="{{ current_data.get('Fjob', 'services') }}">
+        <input type="hidden" name="reason" value="{{ current_data.get('reason', 'course') }}">
+        <input type="hidden" name="guardian" value="{{ current_data.get('guardian', 'mother') }}">
+        <input type="hidden" name="traveltime" value="{{ current_data.get('traveltime', 1) }}">
+        <input type="hidden" name="failures" value="{{ current_data.get('failures', 0) }}">
+        <input type="hidden" name="schoolsup" value="{{ current_data.get('schoolsup', 'no') }}">
+        <input type="hidden" name="nursery" value="{{ current_data.get('nursery', 'yes') }}">
+        <input type="hidden" name="famrel" value="{{ current_data.get('famrel', 4) }}">
+        <input type="hidden" name="goout" value="{{ current_data.get('goout', 3) }}">
+        <input type="hidden" name="Dalc" value="{{ current_data.get('Dalc', 1) }}">
+        <input type="hidden" name="Walc" value="{{ current_data.get('Walc', 2) }}">
+
+        <!-- Buttons -->
+        <div class="form-footer-buttons">
+          <button type="submit" class="btn-primary" id="btn-submit-predict">
+            Predict Performance
+          </button>
+          <button type="button" class="btn-reset" id="reset-form-btn">
+            Reset
+          </button>
+        </div>
+
+      </div>
+    </form>
+  </div>
+
+  <!-- Right Column: Prediction Result & Categories -->
+  <div class="predict-sidebar">
+    
+    <!-- Card 1: Prediction Result -->
+    <div class="predict-side-card">
+      <h4>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M12 6v6l4 2"/>
+        </svg>
+        <span>Prediction Result</span>
+      </h4>
+
+      {% if prediction_result %}
+      <!-- Active Prediction Result -->
+      <div class="prediction-active-state">
+        <div class="score-display">{{ prediction_result.predicted_grade }} <span class="score-denominator">/ 20</span></div>
+        <div>
+          <span class="tier-badge-pill {{ prediction_result.badge_class }}">
+            {{ prediction_result.tier }}
+          </span>
+        </div>
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.35rem;">
+          {{ prediction_result.tier_summary }}
+        </p>
+
+        {% if prediction_result.recommendations %}
+        <div class="recommendations-box">
+          <strong>Guidance Insights:</strong>
+          <ul>
+            {% for rec in prediction_result.recommendations %}
+            <li>{{ rec }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
+      </div>
+      {% else %}
+      <!-- Empty State matching reference image -->
+      <div class="prediction-empty-state">
+        <div class="empty-state-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+            <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+          </svg>
+        </div>
+        <div class="empty-state-title">Your prediction will appear here</div>
+        <div class="empty-state-subtitle">Fill in the form and click<br>Predict Performance</div>
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- Card 2: Performance Categories Legend -->
+    <div class="predict-side-card">
+      <h4>Performance Categories</h4>
+      <ul class="categories-list">
+        <li class="cat-item">
+          <span class="cat-dot dot-excellent"></span>
+          <span>Excellent (18–20)</span>
+        </li>
+        <li class="cat-item">
+          <span class="cat-dot dot-verygood"></span>
+          <span>Very Good (16–17)</span>
+        </li>
+        <li class="cat-item">
+          <span class="cat-dot dot-good"></span>
+          <span>Good (14–15)</span>
+        </li>
+        <li class="cat-item">
+          <span class="cat-dot dot-satisfactory"></span>
+          <span>Satisfactory (12–13)</span>
+        </li>
+        <li class="cat-item">
+          <span class="cat-dot dot-pass"></span>
+          <span>Pass (10–11)</span>
+        </li>
+        <li class="cat-item">
+          <span class="cat-dot dot-fail"></span>
+          <span>Fail / At-Risk (0–9)</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Card 3: Notice -->
+    <div class="notice-box">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 1px;">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="12" y1="16" x2="12" y2="12"/>
+        <line x1="12" y1="8" x2="12.01" y2="8"/>
+      </svg>
+      <div>
+        This prediction is an estimate based on historical data and should not be used as the sole basis for high-stakes decisions.
+      </div>
+    </div>
+
+  </div>
+
+</div>
+{% endblock %}

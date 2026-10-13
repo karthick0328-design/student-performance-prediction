@@ -1,0 +1,98 @@
+{
+  "dataset_name": "UCI Student Performance (Math Course)",
+  "total_records": 395,
+  "training_records": 316,
+  "test_records": 79,
+  "feature_count": 30,
+  "features": [
+    "age",
+    "Medu",
+    "Fedu",
+    "traveltime",
+    "studytime",
+    "failures",
+    "famrel",
+    "freetime",
+    "goout",
+    "Dalc",
+    "Walc",
+    "health",
+    "absences",
+    "school",
+    "sex",
+    "address",
+    "famsize",
+    "Pstatus",
+    "Mjob",
+    "Fjob",
+    "reason",
+    "guardian",
+    "schoolsup",
+    "famsup",
+    "paid",
+    "activities",
+    "nursery",
+    "higher",
+    "internet",
+    "romantic"
+  ],
+  "target_variable": "G3",
+  "target_range": [
+    0,
+    20
+  ],
+  "excluded_features": [
+    "G1",
+    "G2"
+  ],
+  "selected_model": "Random Forest",
+  "selected_model_metrics": {
+    "cv_mae": 2.9713,
+    "cv_r2": 0.2075,
+    "test_mae": 3.173,
+    "test_rmse": 3.9493,
+    "test_r2": 0.2394
+  },
+  "all_models_comparison": [
+    {
+      "model": "Baseline (Mean)",
+      "cv_mae": 3.4029,
+      "cv_r2": -0.035,
+      "test_mae": 3.6459,
+      "test_rmse": 4.5502,
+      "test_r2": -0.0097
+    },
+    {
+      "model": "Linear Regression",
+      "cv_mae": 3.5227,
+      "cv_r2": -0.0924,
+      "test_mae": 3.3953,
+      "test_rmse": 4.1957,
+      "test_r2": 0.1415
+    },
+    {
+      "model": "Ridge Regression",
+      "cv_mae": 3.4167,
+      "cv_r2": -0.0161,
+      "test_mae": 3.3741,
+      "test_rmse": 4.18,
+      "test_r2": 0.1479
+    },
+    {
+      "model": "Random Forest",
+      "cv_mae": 2.9713,
+      "cv_r2": 0.2075,
+      "test_mae": 3.173,
+      "test_rmse": 3.9493,
+      "test_r2": 0.2394
+    },
+    {
+      "model": "Gradient Boosting",
+      "cv_mae": 3.0515,
+      "cv_r2": 0.198,
+      "test_mae": 3.1709,
+      "test_rmse": 3.9286,
+      "test_r2": 0.2473
+    }
+  ]
+}

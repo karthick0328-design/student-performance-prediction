@@ -1,0 +1,17 @@
+{
+  "id": "karthick2803/ai-based-student-performance-prediction-system",
+  "title": "AI-Based Student Performance Prediction System",
+  "code_file": "student_performance_analysis.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": false,
+  "enable_gpu": false,
+  "enable_tpu": false,
+  "enable_internet": true,
+  "dataset_sources": [
+    "karthick2803/student-performance-dataset"
+  ],
+  "competition_sources": [],
+  "kernel_sources": [],
+  "model_sources": []
+}

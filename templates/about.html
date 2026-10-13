@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block title %}About | Student Performance Prediction System{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<div class="page-header">
+  <div class="page-header-title">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/>
+      <line x1="12" y1="16" x2="12" y2="12"/>
+      <line x1="12" y1="8" x2="12.01" y2="8"/>
+    </svg>
+    <span>About This Project</span>
+  </div>
+  <div class="page-header-subtitle">
+    Learn more about the problem, methodology and technical details.
+  </div>
+</div>
+
+<!-- Clean Sections List matching reference image -->
+<div class="about-sections-list">
+  
+  <!-- 1. Problem Statement -->
+  <div class="about-card-item">
+    <div class="about-card-header">
+      <div class="about-icon-circle" style="background-color: #d1fae5; color: #059669;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="8" x2="12" y2="12"/>
+          <line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+      </div>
+      <div class="about-card-title">Problem Statement</div>
+    </div>
+    <div class="about-card-body">
+      Predict student academic performance using demographic, familial, study habit and behavioral data to support early intervention.
+    </div>
+  </div>
+
+  <!-- 2. Objectives -->
+  <div class="about-card-item">
+    <div class="about-card-header">
+      <div class="about-icon-circle" style="background-color: #ffedd5; color: #ea580c;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <circle cx="12" cy="12" r="6"/>
+          <circle cx="12" cy="12" r="2"/>
+        </svg>
+      </div>
+      <div class="about-card-title">Objectives</div>
+    </div>
+    <div class="about-card-body">
+      <ul style="padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.35rem;">
+        <li>Analyze student data and identify key factors</li>
+        <li>Build a machine learning model for prediction</li>
+        <li>Provide insights through visualization and evaluation</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 3. Dataset Source -->
+  <div class="about-card-item">
+    <div class="about-card-header">
+      <div class="about-icon-circle" style="background-color: #e0edfe; color: #1877f2;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <ellipse cx="12" cy="5" rx="9" ry="3"/>
+          <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/>
+          <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
+        </svg>
+      </div>
+      <div class="about-card-title">Dataset Source</div>
+    </div>
+    <div class="about-card-body">
+      <strong>UCI Student Performance Dataset (student-mat.csv)</strong><br>
+      Source: <a href="https://archive.ics.uci.edu/dataset/320/student+performance" target="_blank" style="color: var(--primary); text-decoration: none;">https://archive.ics.uci.edu/dataset/320/student+performance</a><br>
+      License: Open data (academic use)
+    </div>
+  </div>
+
+  <!-- 4. Technologies Used -->
+  <div class="about-card-item">
+    <div class="about-card-header">
+      <div class="about-icon-circle" style="background-color: #dcfce7; color: #16a34a;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="16 18 22 12 16 6"/>
+          <polyline points="8 6 2 12 8 18"/>
+        </svg>
+      </div>
+      <div class="about-card-title">Technologies Used</div>
+    </div>
+    <div class="about-card-body">
+      Python, Pandas, NumPy, Scikit-learn, Matplotlib, Seaborn, Flask
+    </div>
+  </div>
+
+  <!-- 5. Ethical Considerations -->
+  <div class="about-card-item">
+    <div class="about-card-header">
+      <div class="about-icon-circle" style="background-color: #ccfbf1; color: #0d9488;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        </svg>
+      </div>
+      <div class="about-card-title">Ethical Considerations</div>
+    </div>
+    <div class="about-card-body">
+      This model is for educational analysis only. Predictions should not be used for high-stakes decisions about individual students.
+    </div>
+  </div>
+
+</div>
+{% endblock %}

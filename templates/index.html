@@ -1,0 +1,222 @@
+{% extends "base.html" %}
+
+{% block title %}Home | Student Performance Prediction System{% endblock %}
+
+{% block content %}
+<!-- Hero Banner matching reference image -->
+<div class="hero-banner">
+  <div class="hero-content">
+    <h1 class="hero-title">AI-Based Student<br>Performance Prediction System</h1>
+    <p class="hero-desc">
+      Analyze student data, discover patterns and predict academic performance using machine learning.
+    </p>
+    <a href="{{ url_for('predict') }}" class="btn-hero" id="btn-get-started">
+      <span>Get Started</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+        <polyline points="12 5 19 12 12 19"></polyline>
+      </svg>
+    </a>
+  </div>
+
+  <div class="hero-illustration">
+    <!-- Clean 3D-styled Graduation Cap on Books SVG Illustration -->
+    <svg width="160" height="120" viewBox="0 0 200 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Growth Chart Bars in Background -->
+      <rect x="140" y="70" width="10" height="40" rx="3" fill="#bfdbfe" opacity="0.6"/>
+      <rect x="155" y="50" width="10" height="60" rx="3" fill="#93c5fd" opacity="0.8"/>
+      <rect x="170" y="30" width="10" height="80" rx="3" fill="#3b82f6"/>
+      <!-- Arrow trend line -->
+      <path d="M135 75 L165 40 L180 25" stroke="#2563eb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      <polyline points="172,25 180,25 180,33" stroke="#2563eb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      
+      <!-- Books Stack -->
+      <!-- Book 1 (Bottom, Yellow/Orange) -->
+      <path d="M30 115 L120 115 L115 130 L25 130 Z" fill="#f59e0b"/>
+      <path d="M120 115 L135 122 L130 137 L115 130 Z" fill="#d97706"/>
+      <rect x="25" y="125" width="90" height="5" rx="1" fill="#fef3c7"/>
+
+      <!-- Book 2 (Middle, Light Blue) -->
+      <path d="M35 100 L125 100 L120 115 L30 115 Z" fill="#38bdf8"/>
+      <path d="M125 100 L140 107 L135 122 L120 115 Z" fill="#0284c7"/>
+      <rect x="30" y="110" width="90" height="5" rx="1" fill="#e0f2fe"/>
+
+      <!-- Book 3 (Top, Darker Blue) -->
+      <path d="M40 85 L130 85 L125 100 L35 100 Z" fill="#2563eb"/>
+      <path d="M130 85 L145 92 L140 107 L125 100 Z" fill="#1d4ed8"/>
+      <rect x="35" y="95" width="90" height="5" rx="1" fill="#dbeafe"/>
+
+      <!-- 3D Graduation Cap -->
+      <!-- Cap Base / Skullcap -->
+      <path d="M65 65 C65 65 65 78 85 78 C105 78 105 65 105 65 Z" fill="#1e293b"/>
+      
+      <!-- Cap Diamond Top -->
+      <polygon points="85,38 135,55 85,72 35,55" fill="#1e3a8a"/>
+      <polygon points="85,38 135,55 85,58 45,55" fill="#2563eb" opacity="0.4"/>
+
+      <!-- Button on top -->
+      <circle cx="85" cy="55" r="3.5" fill="#f59e0b"/>
+
+      <!-- Tassel -->
+      <path d="M85 55 Q75 60 70 75" stroke="#f59e0b" stroke-width="2.5" fill="none"/>
+      <polygon points="68,75 73,75 74,83 67,83" fill="#f59e0b"/>
+    </svg>
+  </div>
+</div>
+
+<!-- KPI Metric Cards (Row of 4) -->
+<div class="kpi-row">
+  <!-- Card 1: Total Records -->
+  <div class="kpi-box">
+    <div class="kpi-icon-badge badge-blue">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <ellipse cx="12" cy="5" rx="9" ry="3"/>
+        <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/>
+        <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
+      </svg>
+    </div>
+    <div class="kpi-info">
+      <span class="kpi-label">Total Records</span>
+      <span class="kpi-number" id="kpi-records">{{ total_records }}</span>
+      <span class="kpi-subtext">Students in dataset</span>
+    </div>
+  </div>
+
+  <!-- Card 2: Total Features -->
+  <div class="kpi-box">
+    <div class="kpi-icon-badge badge-blue">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+        <line x1="9" y1="3" x2="9" y2="21"/>
+        <line x1="3" y1="9" x2="21" y2="9"/>
+      </svg>
+    </div>
+    <div class="kpi-info">
+      <span class="kpi-label">Total Features</span>
+      <span class="kpi-number" id="kpi-features">{{ feature_count }}</span>
+      <span class="kpi-subtext">Predictor variables</span>
+    </div>
+  </div>
+
+  <!-- Card 3: Selected Model -->
+  <div class="kpi-box">
+    <div class="kpi-icon-badge badge-green">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2L7 10h10l-5-8z"/>
+        <path d="M12 10L6 18h12l-6-8z"/>
+        <path d="M11 18v4h2v-4"/>
+      </svg>
+    </div>
+    <div class="kpi-info">
+      <span class="kpi-label">Selected Model</span>
+      <span class="kpi-number" style="font-size: 1.15rem;" id="kpi-model">{{ selected_model }}</span>
+      <span class="kpi-subtext">Best performing model</span>
+    </div>
+  </div>
+
+  <!-- Card 4: Test MAE -->
+  <div class="kpi-box">
+    <div class="kpi-icon-badge badge-orange">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/>
+        <circle cx="12" cy="12" r="6"/>
+        <circle cx="12" cy="12" r="2"/>
+      </svg>
+    </div>
+    <div class="kpi-info">
+      <span class="kpi-label">Test MAE</span>
+      <span class="kpi-number" id="kpi-mae">{{ test_mae }}</span>
+      <span class="kpi-subtext">Lower is better</span>
+    </div>
+  </div>
+</div>
+
+<!-- Bottom 2-Column Section (Quick Navigation & Key Features) -->
+<div class="home-bottom-grid">
+  <!-- Left: Quick Navigation -->
+  <div class="section-card">
+    <div class="section-card-title">Quick Navigation</div>
+    <div class="quick-nav-grid">
+      <a href="{{ url_for('predict') }}" class="quick-nav-card" id="card-predict">
+        <div class="quick-nav-icon icon-bg-blue">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/>
+            <line x1="16" y1="17" x2="8" y2="17"/>
+          </svg>
+        </div>
+        <div class="quick-nav-text">
+          <strong>Predict Performance</strong>
+          <span>Get a student prediction</span>
+        </div>
+      </a>
+
+      <a href="{{ url_for('analytics') }}" class="quick-nav-card" id="card-analytics">
+        <div class="quick-nav-icon icon-bg-cyan">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="20" x2="18" y2="10"/>
+            <line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+        </div>
+        <div class="quick-nav-text">
+          <strong>Data Analytics</strong>
+          <span>Explore data insights</span>
+        </div>
+      </a>
+
+      <a href="{{ url_for('evaluation') }}" class="quick-nav-card" id="card-evaluation">
+        <div class="quick-nav-icon icon-bg-purple">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <circle cx="12" cy="12" r="6"/>
+            <circle cx="12" cy="12" r="2"/>
+          </svg>
+        </div>
+        <div class="quick-nav-text">
+          <strong>Model Evaluation</strong>
+          <span>View model performance</span>
+        </div>
+      </a>
+
+      <a href="{{ url_for('about') }}" class="quick-nav-card" id="card-about">
+        <div class="quick-nav-icon icon-bg-green">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="16" x2="12" y2="12"/>
+            <line x1="12" y1="8" x2="12.01" y2="8"/>
+          </svg>
+        </div>
+        <div class="quick-nav-text">
+          <strong>About Project</strong>
+          <span>Learn more</span>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Right: Key Features -->
+  <div class="section-card">
+    <div class="section-card-title">Key Features</div>
+    <ul class="features-list">
+      <li class="feature-item">
+        <span class="feature-check">✔</span>
+        <span>Data cleaning & preprocessing</span>
+      </li>
+      <li class="feature-item">
+        <span class="feature-check">✔</span>
+        <span>Machine learning model</span>
+      </li>
+      <li class="feature-item">
+        <span class="feature-check">✔</span>
+        <span>Interactive visualizations</span>
+      </li>
+      <li class="feature-item">
+        <span class="feature-check">✔</span>
+        <span>Prediction with guidance</span>
+      </li>
+    </ul>
+  </div>
+</div>
+{% endblock %}
