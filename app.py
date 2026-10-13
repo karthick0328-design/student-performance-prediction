@@ -47,16 +47,7 @@ def load_cached_metrics() -> Dict[str, Any]:
 
 
 @app.route("/")
-@app.route("/api/index")
 def index():
-    # If debug query param is passed, return environment debug info
-    if request.args.get("debug") == "1":
-        return jsonify({
-            "path_info": request.environ.get("PATH_INFO"),
-            "query_string": request.environ.get("QUERY_STRING"),
-            "headers": dict(request.headers),
-            "keys": [k for k in request.environ.keys() if "PATH" in k or "URI" in k or "ROUTE" in k]
-        })
     """
     Home Dashboard displaying project overview, KPIs, and quick navigation.
     """
