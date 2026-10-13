@@ -225,9 +225,7 @@ def api_stats():
 # Error Handlers
 @app.errorhandler(404)
 def not_found_error(error):
-    hdrs = [f"{k}: {v}" for k, v in request.headers.items()]
-    msg = f"PATH_INFO: {request.environ.get('PATH_INFO')} | HEADERS: {' ;; '.join(hdrs)}"
-    return render_template("error.html", error_code=404, message=msg), 404
+    return render_template("error.html", error_code=404, message="The requested page could not be found."), 404
 
 
 @app.errorhandler(500)
