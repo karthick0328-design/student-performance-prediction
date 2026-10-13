@@ -26,7 +26,11 @@ from src.data_loader import (
 )
 from src.predict import predict_student_performance, get_performance_tier
 
-app = Flask(__name__)
+app = Flask(
+    __name__,
+    static_folder=str(BASE_DIR / "static"),
+    template_folder=str(BASE_DIR / "templates"),
+)
 app.config["SECRET_KEY"] = "academic-student-performance-secure-key-2026"
 
 METRICS_FILE = BASE_DIR / "outputs" / "evaluation_metrics.json"
@@ -43,6 +47,7 @@ def load_cached_metrics() -> Dict[str, Any]:
 
 
 @app.route("/")
+@app.route("/api/index")
 def index():
     """
     Home Dashboard displaying project overview, KPIs, and quick navigation.

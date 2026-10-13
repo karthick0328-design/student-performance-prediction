@@ -8,5 +8,22 @@ if str(ROOT_DIR) not in sys.path:
 
 from app import app
 
-# Expose the Flask WSGI app for Vercel
-app = app
+
+class VercelPathFix:
+    """
+    WSGI Middleware to normalize PATH_INFO in Vercel serverless environments.
+    Strips '/api/index' prefix if Vercel forwards it.
+    """
+    def __init__(self, wsgi_app):
+        self.wsgi_app = wsgi_app
+
+    def __call__(self, environ, start_response):
+        path = environ.get("PATH_INFO", "")
+        if path.startswith("/api/index"):
+            clean_path = path[len("/api/index"):]
+            environ["PATH_INFO"] = clean_path if clean_path else "/"
+        return self.wsgi_app(environ, start_response)
+
+
+# Wrap Flask's WSGI callable with path normalizer
+app.wsgi_app = VercelPathFix(app.wsgi_app)
