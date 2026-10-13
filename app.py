@@ -225,7 +225,8 @@ def api_stats():
 # Error Handlers
 @app.errorhandler(404)
 def not_found_error(error):
-    return render_template("error.html", error_code=404, message="The requested page could not be found."), 404
+    debug_msg = f"PATH: {request.environ.get('PATH_INFO')} | SCRIPT: {request.environ.get('SCRIPT_NAME')} | X_MATCHED: {request.environ.get('HTTP_X_MATCHED_PATH')}"
+    return render_template("error.html", error_code=404, message=debug_msg), 404
 
 
 @app.errorhandler(500)
